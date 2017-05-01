@@ -1,0 +1,42 @@
+group 'com.github.fnmartinez'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    snakeyamlVersion = "1.17"
+    jacksonVersion = "2.8.3"
+    commonsBeanUtilsVersion = "1.9.2"
+    commonsConfigVersion = "2.1"
+    commonsLangVersion = "3.4"
+    guavaVersion = "19.0"
+    assertjVersion = "3.4.1"
+    log4jVersion = "2.5"
+    junitVersion = "4.12"
+    mockitoVersion = "1.9.5"
+}
+
+dependencies {
+    // Libs & Misc.
+    compile group: 'org.yaml', name: 'snakeyaml', version: "${snakeyamlVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "${jacksonVersion}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jacksonVersion}"
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: "${commonsBeanUtilsVersion}"
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: "${commonsConfigVersion}"
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: "${commonsLangVersion}"
+    compile group: 'com.google.guava', name: 'guava', version: "${guavaVersion}"
+    compile group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+    // Logging
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4jVersion}"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"
+    // Testing
+    testCompile group: 'junit', name: 'junit', version: "${junitVersion}"
+    testCompile group: 'org.mockito', name: 'mockito-all', version: "${mockitoVersion}"
+}
