@@ -7,6 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -73,9 +76,22 @@ public class ConfigurationManager {
 		}
 		return sb.toString();
 	}
-	
+
 	public void loadConfigs() throws FileNotFoundException {
-		loadFileConfigs();
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		loadConfigs(classLoader.getResourceAsStream("application.yml"));
+	}
+
+	public void loadConfigs(String configFilePath) throws IOException {
+		loadConfigs(Paths.get(configFilePath));
+	}
+
+	public void loadConfigs(Path configFilePath) throws IOException {
+		loadConfigs(Files.newInputStream(configFilePath, StandardOpenOption.READ));
+	}
+
+	public void loadConfigs(InputStream configFileIs) throws FileNotFoundException {
+		loadFileConfigs(configFileIs);
 		overrideWithEnvironment();
 		if (!environments.containsKey(environment)) {
 			throw new IllegalStateException(format("Provided environment %s does not exists.", environment));
@@ -83,10 +99,9 @@ public class ConfigurationManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void loadFileConfigs() throws FileNotFoundException {
-		ClassLoader classLoader = this.getClass().getClassLoader();
+	private void loadFileConfigs(InputStream configFileIs) throws FileNotFoundException {
 		Yaml yaml = new Yaml();
-		Iterable<Object> configs = yaml.loadAll(classLoader.getResourceAsStream("application.yml"));
+		Iterable<Object> configs = yaml.loadAll(configFileIs);
 		for (Object config: configs) {
 			if (!(config instanceof Map)) {
 				throw new IllegalArgumentException("Unsupported configuration type. " +
