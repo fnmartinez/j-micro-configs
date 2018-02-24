@@ -15,7 +15,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigurationManager {
-	public static final String ENVIRONMEN_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR = "__";
+	public static final String ENVIRONMENT_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR = "__";
 
 	public static final String DEFAULT_ENVIRONMENT_NAME = "default";
 	public static final String ENVIRONMENT_KEY_WORD = "environment";
@@ -68,7 +68,7 @@ public class ConfigurationManager {
 		}
 		StringBuilder sb = new StringBuilder(envarPrefix);
 		for (String level: levels) {
-			sb.append(ENVIRONMEN_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR);
+			sb.append(ENVIRONMENT_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR);
 			sb.append(level);
 		}
 		return sb.toString();
@@ -101,7 +101,7 @@ public class ConfigurationManager {
 			environment = fetchEnvironment();
 		}
 		Map<String, String> environmentVariables = System.getenv().entrySet().stream()
-				.filter(entry -> entry.getKey().startsWith(this.envarPrefix + ENVIRONMEN_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR))
+				.filter(entry -> entry.getKey().startsWith(this.envarPrefix + ENVIRONMENT_VARIABLE_PATH_HIERARCHY_DIFFERENTIATOR))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		this.environmentVariables.clear();
 		this.environmentVariables.putAll(environmentVariables);
