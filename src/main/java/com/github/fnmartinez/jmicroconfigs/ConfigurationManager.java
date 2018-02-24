@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.Maps;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileNotFoundException;
@@ -40,19 +41,30 @@ public class ConfigurationManager {
 	public ConfigurationManager(String envarPrefix, String environment) {
 		logger.entry(envarPrefix, environment);
 		try {
-			assertThat(envarPrefix).isNotNull().isNotEmpty();
+			assertThat(envarPrefix)
+					.isNotNull()
+					.isNotEmpty()
+					.isNotEqualToIgnoringWhitespace(Strings.EMPTY)
+					.doesNotMatch("^.* .*$")
+					.doesNotContain("=")
+					.doesNotContain("\0");
+			if (environment != null) {
+				assertThat(environment)
+						.isNotEmpty()
+						.isNotEqualToIgnoringWhitespace(Strings.EMPTY);
+			}
 		} catch (AssertionError ae) {
 			logger.catching(ae);
 			throw new IllegalArgumentException(ae);
 		}
-		this.envarPrefix = envarPrefix;
+		this.envarPrefix = envarPrefix.trim();
 		this.environment = environment;
 		logger.exit(this);
 	}
 
 	private String fetchEnvironment() {
 		String environment = getEnVar(ENVIRONMENT_KEY_WORD);
-		if (environment == null || environment.trim() == "") {
+		if (environment == null || environment.trim().equals("")) {
 			return DEFAULT_ENVIRONMENT_NAME;
 		}
 		return environment;
