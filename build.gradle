@@ -13,10 +13,6 @@ repositories {
 
 ext {
     snakeyamlVersion = "1.17"
-    jacksonVersion = "2.8.3"
-    commonsBeanUtilsVersion = "1.9.2"
-    commonsConfigVersion = "2.1"
-    commonsLangVersion = "3.4"
     guavaVersion = "19.0"
     assertjVersion = "3.4.1"
     log4jVersion = "2.5"
@@ -28,11 +24,6 @@ ext {
 dependencies {
     // Libs & Misc.
     compile group: 'org.yaml', name: 'snakeyaml', version: "${snakeyamlVersion}"
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "${jacksonVersion}"
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "${jacksonVersion}"
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: "${commonsBeanUtilsVersion}"
-    compile group: 'org.apache.commons', name: 'commons-configuration2', version: "${commonsConfigVersion}"
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: "${commonsLangVersion}"
     compile group: 'com.google.guava', name: 'guava', version: "${guavaVersion}"
     compile group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
     // Logging
