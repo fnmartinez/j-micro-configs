@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -178,47 +179,36 @@ public class ConfigurationManager {
 		return config;
 	}
 
-	public Object get(String path) {
-		Object config = fetchInEnvironmentVariables(path);
-		if (config == null) {
-			config = fetchInConfigFile(path);
 		}
 		return config;
 	}
 
-	public byte getByte(String path) {
-		return Byte.valueOf(get(path).toString());
+	@SuppressWarnings("unchecked")
+	public <T> T get(String path) {
+		Object config = fetchInEnvironmentVariables(path);
+		if (config == null) {
+			config = fetchInConfigFile(path);
+		}
+		return (T)config;
 	}
 
-	public short getShort(String path) {
-		return Short.valueOf(get(path).toString());
+	public Integer getInt(String path) {
+		return this.get(path);
 	}
 
-	public int getInt(String path) {
-		return Integer.valueOf(get(path).toString());
-	}
-
-	public long getLong(String path) {
-		return Long.valueOf(get(path).toString());
-	}
-
-	public boolean getBoolean(String path) {
-		return Boolean.valueOf(get(path).toString());
-	}
-
-	public char getChar(String path) {
-		return get(path).toString().charAt(0);
+	public Boolean getBoolean(String path) {
+		return this.get(path);
 	}
 
 	public String getString(String path) {
-		return get(path).toString();
+		return this.get(path);
 	}
 
-	public float getFloat(String path) {
-		return Float.valueOf(get(path).toString());
+	public Double getDouble(String path) {
+		return this.<Double>get(path);
 	}
 
-	public double getDouble(String path) {
-		return Double.valueOf(get(path).toString());
+	public Date getDate(String path) {
+		return this.get(path);
 	}
 }
