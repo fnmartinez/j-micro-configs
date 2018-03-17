@@ -91,6 +91,8 @@ public class ConfigurationManager {
 	}
 
 	public void loadConfigs() throws FileNotFoundException {
+		this.environments.clear();
+		this.environmentVariables.clear();
 		ClassLoader classLoader = this.getClass().getClassLoader();
 		loadConfigs(classLoader.getResourceAsStream("application.yml"));
 	}
@@ -158,9 +160,8 @@ public class ConfigurationManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Object fetchInConfigFile(String path) {
-		String[] splitPath = path.split("\\.");
-		Object config = this.environments.get(environment);
+	private Object findPathInConfig(String[] splitPath, Map<String, Object> configs) {
+		Object config = configs;
 		for (String level: splitPath) {
 			if (level.matches("^.*\\[\\d+\\]$")) {
 				int indexStart = level.lastIndexOf('[');
@@ -175,10 +176,18 @@ public class ConfigurationManager {
 			} else {
 				config = ((Map<String, Object>)config).get(level);
 			}
+			if (config == null) {
+				return config;
+			}
 		}
 		return config;
 	}
 
+	private Object fetchInConfigFile(String path) {
+		String[] splitPath = path.split("\\.");
+		Object config = findPathInConfig(splitPath, this.environments.get(environment));
+		if (config == null && this.environments.containsKey(DEFAULT_ENVIRONMENT_NAME)) {
+			config = findPathInConfig(splitPath, this.environments.get(DEFAULT_ENVIRONMENT_NAME));
 		}
 		return config;
 	}
@@ -211,4 +220,5 @@ public class ConfigurationManager {
 	public Date getDate(String path) {
 		return this.get(path);
 	}
+
 }
