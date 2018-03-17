@@ -12,7 +12,7 @@ repositories {
 }
 
 ext {
-    snakeyamlVersion = "1.17"
+    snakeyamlVersion = "1.20"
     guavaVersion = "19.0"
     assertjVersion = "3.4.1"
     log4jVersion = "2.5"
