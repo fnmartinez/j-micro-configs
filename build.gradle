@@ -1,8 +1,21 @@
 group 'com.github.fnmartinez'
 version '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+    }
+}
+
+
 apply plugin: 'java'
-apply plugin: 'jacoco'
+apply from: 'nexus.gradle'
+apply from: 'coverage.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -39,25 +52,4 @@ dependencies {
 
 javadoc {
     options.memberLevel = JavadocMemberLevel.PRIVATE
-}
-
-jacoco {
-    toolVersion = "0.7.6.201602180812"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        xml.destination file("${buildDir}/test-results/coverage.xml")
-        csv.enabled false
-        html.destination file("${buildDir}/reports/coverage")
-    }
-}
-
-test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        classDumpFile = file("$buildDir/jacoco/classpathdumps")
-    }
 }

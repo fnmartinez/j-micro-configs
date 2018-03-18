@@ -1,0 +1,45 @@
+apply plugin: 'com.bmuschko.nexus' // Nexus publishing plugin
+apply plugin: 'io.codearte.nexus-staging' // Nexus automatic promotion plugin
+
+task getVersion {
+	println version
+}
+
+modifyPom {
+	project {
+		name 'j-mciro-configs'
+		description 'Flexible and easy configurations for simple Java micro-services.'
+		url 'https://github.com/fnmartinez/j-micro-configs'
+		packaging 'jar'
+		licenses {
+			license {
+				name 'Apache License V2.0'
+				url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+				distribution 'repo'
+			}
+		}
+		scm {
+			url 'https://github.com/fnmartinez/j-micro-configs'
+			connection 'scm:git:https://github.com/fnmartinez/j-micro-configs'
+			developerConnection 'scm:git@github.com:fnmartinez/j-micro-configs.git'
+		}
+		developers {
+			developer {
+				id 'fnmartinez'
+				name 'Facundo Martinez Correa'
+			}
+		}
+	}
+}
+
+extraArchive {
+	sources = true
+	tests = false
+	javadoc = true
+}
+
+nexus {
+	sign = true
+	repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+	snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+}

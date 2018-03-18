@@ -1,0 +1,24 @@
+apply plugin: 'jacoco' // Code coverage
+
+jacoco {
+	toolVersion = "0.8.0"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		xml.destination file("${buildDir}/test-results/coverage.xml")
+		csv.enabled false
+		html.destination file("${buildDir}/reports/coverage")
+	}
+}
+
+test {
+	jacoco {
+		append = false
+		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+		classDumpFile = file("$buildDir/jacoco/classpathdumps")
+	}
+	finalizedBy jacocoTestReport
+}
