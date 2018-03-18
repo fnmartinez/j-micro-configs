@@ -1,0 +1,31 @@
+environment: 'default'
+my:
+  nested:
+    config:
+      a_hex_int: 0x01
+      an_octal_int: 02
+      an_int: 3
+      a_string: 'hello'
+      a_boolean: true
+      a_real: 2.5
+      a_date: 1988-12-04
+      a_date_time: 1988-12-04T11:37:00-03:00
+      a_list:
+        - 0x01
+        - 02
+        - 3
+        - 'hello'
+        - true
+        - 2.5
+        - 1988-12-04
+        - 1988-12-04T11:37:00-03:00
+---
+environment: 'non-default'
+does:
+  not:
+    exists: false
+my:
+  nested:
+    config:
+      an_int: 4
+      other_int: 5
