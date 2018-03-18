@@ -124,7 +124,7 @@ public class ConfigurationManagerTest {
 	}
 
 	@Test
-	public void testNonExistantConfigReturnsNull() {
+	public void testNonExistentConfigReturnsNull() {
 		ConfigurationManager configurationManager = new ConfigurationManager(DEFAULT_ENVAR_PREFIX);
 		try {
 			configurationManager.loadConfigs();
