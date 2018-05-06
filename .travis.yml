@@ -3,7 +3,8 @@ jdk:
   - oraclejdk8
 
 script:
-  - "./gradlew test jacocoTestReport"
+  - ./gradlew test jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - ".utility/push_javadocs.sh"
